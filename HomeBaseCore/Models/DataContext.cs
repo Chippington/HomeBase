@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace HomeBaseCore.Models {
 	public class DataContext : DbContext {
-		public DbSet<ProfileData> profiles;
-		public DbSet<FolderData> folders;
-		public DbSet<FileData> files;
+		public DbSet<ProfileData> profiles { get; set; }
+		public DbSet<FolderData> folders { get; set; }
+		public DbSet<FileData> files { get; set; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
 			optionsBuilder.UseSqlite("Data Source=data.db");
@@ -16,14 +16,14 @@ namespace HomeBaseCore.Models {
 	}
 
 	public class ProfileData {
-		public int ProfileID { get; set; }
+		public int ProfileDataID { get; set; }
 		public string ProfileGuid { get; set; }
 		public string Username { get; set; }
 		public string Password { get; set; }
 	}
 
 	public class FolderData {
-		public int FolderID { get; set; }
+		public int FolderDataID { get; set; }
 		public int OwnerProfileID { get; set; }
 		public string FolderPath { get; set; }
 		public string FolderName { get; set; }
@@ -31,7 +31,7 @@ namespace HomeBaseCore.Models {
 	}
 
 	public class FileData {
-		public int FileID { get; set; }
+		public int FileDataID { get; set; }
 		public int FolderID { get; set; }
 		public int OwnerProfileID { get; set; }
 		public string FilePath { get; set; }

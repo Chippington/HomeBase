@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using HomeBaseCore.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace HomeBaseCore
 {
@@ -22,7 +26,9 @@ namespace HomeBaseCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-        }
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie();
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -37,9 +43,20 @@ namespace HomeBaseCore
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+			if (Directory.Exists(FileStorage.ContentDirectory) == false)
+				Directory.CreateDirectory(FileStorage.ContentDirectory);
 
-            app.UseMvc(routes =>
+			if (Directory.Exists(FileStorage.FileDirectory) == false)
+				Directory.CreateDirectory(FileStorage.FileDirectory);
+
+			app.UseAuthentication();
+			app.UseStaticFiles();
+			app.UseStaticFiles(new StaticFileOptions {
+				FileProvider = new PhysicalFileProvider(FileStorage.ContentDirectory),
+				RequestPath = "/Content"
+			});
+
+			app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
