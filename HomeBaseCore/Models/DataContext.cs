@@ -25,6 +25,7 @@ namespace HomeBaseCore.Models {
 	public class FolderData {
 		public int FolderDataID { get; set; }
 		public int OwnerProfileID { get; set; }
+		public int RootFolderID { get; set; }
 		public string FolderPath { get; set; }
 		public string FolderName { get; set; }
 		public string FolderDescription { get; set; }

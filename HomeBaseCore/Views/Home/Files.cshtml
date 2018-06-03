@@ -1,4 +1,5 @@
-﻿
+﻿@model HomeBaseCore.Models.FolderModel
+
 @{
     ViewData["Title"] = "Files";
 }
@@ -6,6 +7,7 @@
 <h2>Files</h2>
 
 <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Upload">
+	@Html.HiddenFor(m => m.sourceID);
     <div class="form-group">
         <div class="col-md-10">
             <p>Upload one or more files using this form:</p>

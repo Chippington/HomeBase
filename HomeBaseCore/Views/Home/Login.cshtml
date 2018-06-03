@@ -1,0 +1,18 @@
+﻿@model HomeBaseCore.Models.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+<form asp-controller="Home" asp-action="Login" method="post">
+    <h4>LoginModel</h4>
+    <hr />
+    
+	<input asp-for="username" />
+	<input asp-for="password" />
+	<button type="submit">Login</button>
+</form>
+<div>
+</div>
