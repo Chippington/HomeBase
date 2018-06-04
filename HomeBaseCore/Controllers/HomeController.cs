@@ -71,7 +71,7 @@ namespace HomeBaseCore.Controllers {
 						db.files.Add(new FileData() {
 							OwnerProfileID = id,
 							FileName = filename + ext.ToLower(),
-							FilePath = Path.Combine(filePath, filename + ext).Replace(Directory.GetCurrentDirectory(), "~"),
+							FilePath = Path.Combine(filePath, filename + ext).Replace(Directory.GetCurrentDirectory(), "~").Replace('\\', '/'),
 							FolderID = model.sourceID,
 							FileDescription = string.Format("Uploaded {0}", DateTime.Now.ToLongDateString()),
 						});

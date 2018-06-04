@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace HomeBaseCore.Models {
 	public class FileStorage {
-		public static string ContentDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Content");
-		public static string FileDirectory = Path.Combine(ContentDirectory, "Files");
+		public static string ContentDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+		public static string FileDirectory = Path.Combine(ContentDirectory, "files");
 
 		public static string GetUserFileDirectory(ClaimsPrincipal user) {
 			var d = GetUserID(user);

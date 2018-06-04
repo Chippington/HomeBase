@@ -18,6 +18,12 @@ namespace HomeBaseCore.Models {
 			}
 		}
 
+		public string contentPath {
+			get {
+				return source.FilePath.Replace("wwwroot/", "").Trim('~');
+			}
+		}
+
 		public FileData source { get; set; }
 		public FileModel() { }
 		public FileModel(FileData source) {

@@ -1,12 +1,7 @@
 ﻿@model HomeBaseCore.Models.FileModel
 
-<div>
-    <h4>FileModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+<div class="col-md-3">
+	<img src="@Model.contentPath" style="width:100%; height:80%"/>
+	<br />
+	<span>@Model.source.FileDescription</span>
 </div>

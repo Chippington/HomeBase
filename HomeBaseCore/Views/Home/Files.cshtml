@@ -19,4 +19,11 @@
             <input type="submit" value="Upload" />
         </div>
     </div>
+	<br />
+	<div>
+		<img src="~/files/1/00000000.jpg"/>
+		@foreach(var f in Model.files) {
+			@Html.Partial("FileCard", f);
+		}
+	</div>
 </form>
