@@ -14,6 +14,9 @@ namespace HomeBaseCore.Models {
 
 		public int sourceID {
 			get {
+				if (source == null)
+					return -1;
+
 				return source.FolderDataID;
 			}
 

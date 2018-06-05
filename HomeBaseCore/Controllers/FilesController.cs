@@ -11,13 +11,20 @@ namespace HomeBaseCore.Controllers
 {
     public class FilesController : Controller
     {
-		public IActionResult Index() {
+		public IActionResult Index(FolderModel folder) {
 			if (User.Identity.IsAuthenticated == false)
 				return RedirectToAction(nameof(HomeController.Login), nameof(HomeController));
 
 			ModelState.Clear();
-			var root = FileStorage.GetUserRootFolder(User);
-			return View(root);
+			if (folder.source == null) {
+				folder = FileStorage.GetUserRootFolder(User);
+				if (folder.folders.Count == 0) {
+					//FileStorage.CreateNewFolder(User, "testfolder", parent: folder);
+					folder = FileStorage.GetUserRootFolder(User);
+				}
+			}
+
+			return View(folder);
 		}
 
 		[HttpPost]

@@ -44,5 +44,27 @@ namespace HomeBaseCore.Models {
 		public static int GetUserID(ClaimsPrincipal user) {
 			return int.Parse(user.Claims.Where(x => x.Type == "id").FirstOrDefault().Value);
 		}
+
+		public static FolderModel CreateNewFolder(ClaimsPrincipal user, string name, string description = null, FolderModel parent = null) {
+			if (parent == null)
+				parent = GetUserRootFolder(user);
+
+			FolderModel ret = null;
+			var id = GetUserID(user);
+			using (var db = new DataContext()) {
+				var inst = new FolderData() {
+					FolderName = name,
+					FolderDescription = description,
+					OwnerProfileID = id,
+					RootFolderID = parent == null ? -1 : parent.sourceID,
+				};
+
+				db.folders.Add(inst);
+				ret = new FolderModel(inst);
+				db.SaveChanges();
+			}
+
+			return ret;
+		}
 	}
 }

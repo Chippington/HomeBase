@@ -1,12 +1,10 @@
 ﻿@model HomeBaseCore.Models.FolderModel
 
-<div>
-    <h4>FolderModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+<div class="col-md-2" style="height:200px; border: 1px dotted black; padding: 5px 5px 5px 5px; margin: 5px 5px 5px 5px">
+	<a href="@Url.Action("Files", "Index", new { folder = Model })">
+		@*<img src="@Model.contentPath" style="width:100%; max-height:100px"/>*@
+		@Model.source.FolderName
+	</a>
+	<br />
+	<span>@Model.source.FolderDescription</span>
 </div>
