@@ -20,6 +20,9 @@ namespace HomeBaseCore.Controllers {
 		}
 
 		public IActionResult Files() {
+			if (User.Identity.IsAuthenticated == false)
+				return RedirectToAction(nameof(Login));
+
 			ModelState.Clear();
 			var root = FileStorage.GetUserRootFolder(User);
 			return View(root);

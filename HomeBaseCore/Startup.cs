@@ -29,13 +29,6 @@ namespace HomeBaseCore
             services.AddMvc();
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie();
-
-			services.AddMvc()
-				.ConfigureApplicationPartManager(manager => {
-					var oldMetadataReferenceFeatureProvider = manager.FeatureProviders.First(f => f is MetadataReferenceFeatureProvider);
-					manager.FeatureProviders.Remove(oldMetadataReferenceFeatureProvider);
-					manager.FeatureProviders.Add(new ReferencesMetadataReferenceFeatureProvider());
-				});
 		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
