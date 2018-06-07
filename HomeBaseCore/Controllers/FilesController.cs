@@ -13,7 +13,7 @@ namespace HomeBaseCore.Controllers
     {
 		public IActionResult Index(FolderModel folder) {
 			if (User.Identity.IsAuthenticated == false)
-				return RedirectToAction(nameof(HomeController.Login), nameof(HomeController));
+				return RedirectToAction(nameof(HomeController.Login), nameof(HomeController).Replace("Controller", ""));
 
 			ModelState.Clear();
 			if (folder.source == null) {
@@ -30,7 +30,7 @@ namespace HomeBaseCore.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Upload(FolderModel model, List<IFormFile> files) {
 			if (User.Identity.IsAuthenticated == false)
-				return RedirectToAction(nameof(HomeController.Login), nameof(HomeController));
+				return RedirectToAction(nameof(HomeController.Login), nameof(HomeController).Replace("Controller", ""));
 
 			long size = files.Sum(f => f.Length);
 
