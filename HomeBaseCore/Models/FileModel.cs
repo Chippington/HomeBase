@@ -20,7 +20,7 @@ namespace HomeBaseCore.Models {
 
 		public string contentPath {
 			get {
-				return source.FilePath.Replace("wwwroot/", "").Trim('~');
+				return source.FilePath.Replace("wwwroot/", "").Trim('~').Trim('/');
 			}
 		}
 
