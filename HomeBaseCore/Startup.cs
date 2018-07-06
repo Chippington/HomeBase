@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Chip.Identity.Common.Extensions;
 using HomeBaseCore.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -27,8 +28,9 @@ namespace HomeBaseCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-				.AddCookie();
+			services.AddChipIdentity("media", "secret", new string[0], "http://localhost/Chip.Identity");
+			//services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+			//	.AddCookie();
 		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +52,10 @@ namespace HomeBaseCore
 			if (Directory.Exists(FileStorage.FileDirectory) == false)
 				Directory.CreateDirectory(FileStorage.FileDirectory);
 
-			app.UseAuthentication();
+			//app.UseAuthentication();
+
+			app.UseChipIdentity();
+
 			app.UseStaticFiles();
 			app.UseStaticFiles(new StaticFileOptions {
 				FileProvider = new PhysicalFileProvider(FileStorage.ContentDirectory),

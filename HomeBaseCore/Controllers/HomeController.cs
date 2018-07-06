@@ -12,9 +12,16 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Chip.Identity.Common.Data;
 
 namespace HomeBaseCore.Controllers {
 	public class HomeController : Controller {
+
+		private IUserData userdata;
+		public HomeController(IUserData userdata) {
+			this.userdata = userdata;
+		}
+
 		public IActionResult Index() {
 			return View();
 		}
@@ -45,7 +52,7 @@ namespace HomeBaseCore.Controllers {
 					p = new ProfileData();
 					p.Username = model.username;
 					p.Password = model.password;
-					p.ProfileDataID = db.profiles.Count() + 1;
+					p.ProfileDataID = userdata.Identifier;
 					db.profiles.Add(p);
 				}
 

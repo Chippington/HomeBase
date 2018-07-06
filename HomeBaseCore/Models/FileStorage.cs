@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Chip.Identity.Common.Data;
+using Chip.Identity.Common.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,22 +12,26 @@ namespace HomeBaseCore.Models {
 		public static string ContentDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 		public static string FileDirectory = Path.Combine(ContentDirectory, "files");
 
-		public static string GetUserFileDirectory(ClaimsPrincipal user) {
-			var d = GetUserID(user);
-			return GetCustomFileDirectory(d.ToString());
+		public static string GetUserFileDirectory(IUserData user) {
+			var id = GetUserID(user);
+			return GetCustomFileDirectory(id.ToString());
 		}
 
 		public static string GetCustomFileDirectory(string subpath) {
 			return Path.Combine(FileDirectory, subpath);
 		}
 
-		public static FolderModel GetUserRootFolder(ClaimsPrincipal user) {
+		public static string GetUserRootFolderPath(IUserData user) {
+			return GetUserFileDirectory(user).Replace(Directory.GetCurrentDirectory(), "~"); 
+		}
+
+		public static FolderModel GetUserRootFolder(IUserData user) {
 			var rootFolder = GetUserFileDirectory(user).Replace(Directory.GetCurrentDirectory(), "~");
 			var id = GetUserID(user);
 			using (var db = new DataContext()) {
 				var root = db.folders.Where(x => x.OwnerProfileID == id && x.FolderPath == rootFolder).FirstOrDefault();
 				if (root == null || string.IsNullOrEmpty(root.OwnerProfileID.ToString()))
-					return null;
+					root = CreateNewFolder(user, "root", "root").source;
 
 				return new FolderModel(root);
 			}
@@ -41,23 +47,31 @@ namespace HomeBaseCore.Models {
 			}
 		}
 
-		public static int GetUserID(ClaimsPrincipal user) {
-			return int.Parse(user.Claims.Where(x => x.Type == "id").FirstOrDefault().Value);
+		public static string GetUserID(IUserData user) {
+			return user.Identifier;
 		}
 
-		public static FolderModel CreateNewFolder(ClaimsPrincipal user, string name, string description = null, FolderModel parent = null) {
-			if (parent == null)
-				parent = GetUserRootFolder(user);
-
+		public static FolderModel CreateNewFolder(IUserData user, string name, string description = null, FolderModel parent = null) {
 			FolderModel ret = null;
-			var id = GetUserID(user);
 			using (var db = new DataContext()) {
+				var root = db.folders.Where(i => i.OwnerProfileID == user.Identifier && i.FolderName == "root").FirstOrDefault();
+				if (parent == null)
+					parent = new FolderModel(root);
+
+				var id = GetUserID(user);
 				var inst = new FolderData() {
 					FolderName = name,
 					FolderDescription = description,
 					OwnerProfileID = id,
 					RootFolderID = parent == null ? -1 : parent.sourceID,
 				};
+
+				if(root == null) {
+					inst.FolderPath = GetUserRootFolderPath(user);
+					var realpath = inst.FolderPath.Replace("~", Directory.GetCurrentDirectory());
+					if (Directory.Exists(realpath) == false)
+						Directory.CreateDirectory(realpath);
+				}
 
 				db.folders.Add(inst);
 				ret = new FolderModel(inst);
