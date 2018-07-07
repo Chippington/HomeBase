@@ -1,32 +1,46 @@
 ﻿@model HomeBaseCore.Models.FolderModel
 
 @{
-    ViewData["Title"] = "Files";
+	ViewData["Title"] = "Files";
 }
 
-<h2>Files</h2>
 
-<div class="container">
 	<div class="row">
-		<form method="post" enctype="multipart/form-data" asp-controller="Files" asp-action="Upload">
-			@Html.HiddenFor(m => m.sourceID)
-			<div class="form-group">
-				<div class="col-md-10">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+
+				<div class="panel-heading">
 					<p>Upload one or more files using this form:</p>
-					<input type="file" name="files" multiple />
+				</div>
+
+				<div class="panel-body">
+					<form method="post" enctype="multipart/form-data" asp-controller="Files" asp-action="Upload">
+						@Html.HiddenFor(m => m.sourceID)
+						<div class="form-group">
+							<input type="file" name="files" multiple />
+						</div>
+						<div class="form-group">
+							<input type="submit" value="Upload" />
+						</div>
+					</form>
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-md-10">
-					<input type="submit" value="Upload" />
-				</div>
-			</div>
-		</form>
+		</div>
 	</div>
-<br />
 	<div class="row">
-		@foreach(var f in Model.files) {
-			@Html.Partial("FileCard", f)
-		}
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+
+				<div class="panel-heading">
+					<p>Uploaded Files:</p>
+				</div>
+
+				<div class="panel-body">
+					@foreach (var f in Model.files) {
+						@await Html.PartialAsync("FileCard", f)
+					}
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
+	<br />

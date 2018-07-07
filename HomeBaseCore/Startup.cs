@@ -28,7 +28,7 @@ namespace HomeBaseCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-			services.AddChipIdentity("media", "secret", new string[0], "http://localhost/Chip.Identity");
+			services.AddChipIdentity("media", "secret", new string[0], "http://potatochip.io/Identity");
 			//services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 			//	.AddCookie();
 		}
