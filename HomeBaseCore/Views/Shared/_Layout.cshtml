@@ -55,16 +55,6 @@
 								<em class="fa fa-navicon"></em>
 							</a>
 						</li>
-						<!-- START User avatar toggle-->
-						@if (User.Identity.IsAuthenticated) {
-							<li>
-								<!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-								<a id="user-block-toggle" href="#user-block" data-toggle="collapse">
-									<em class="icon-user"></em>
-								</a>
-							</li>
-
-						}
 						<!-- END lock screen-->
 					</ul>
 					<!-- END Left navbar-->
@@ -107,26 +97,29 @@
 				<nav data-sidebar-anyclick-close="" class="sidebar">
 					<!-- START sidebar nav-->
 					<ul class="nav">
-						<!-- START user info-->
-						<li class="has-user-block">
-							<div id="user-block" class="collapse">
-								<div class="item user-block">
-									<!-- User picture-->
-									<div class="user-block-picture">
-										<div class="user-block-status">
-											<img src="~/img/user.png" alt="Avatar" width="70" height="70" class="img-thumbnail img-circle">
-											<div class="circle circle-success circle-lg"></div>
+						@if (User.Identity.IsAuthenticated) {
+							<!-- START user info-->
+							<li class="has-user-block">
+								<div id="user-block">
+									<div class="item user-block">
+										<!-- User picture-->
+										<div class="user-block-picture">
+											<div class="user-block-status">
+												<img src="~/img/user.png" alt="Avatar" width="70" height="70" class="img-thumbnail img-circle">
+												<div class="circle circle-success circle-lg"></div>
+											</div>
+										</div>
+										<!-- Name and Job-->
+										<div class="user-block-info">
+											<span class="user-block-name">Hello, @User.Claims.Where(i => i.Type == "name").FirstOrDefault()?.Value</span>
+											<a href="http://potatochip.io/Identity/Manage/Index">Manage</a>&nbsp;|&nbsp;
+											<a href="@Url.Action("Logout", "Home")">Logout</a>
 										</div>
 									</div>
-									<!-- Name and Job-->
-									<div class="user-block-info">
-										<span class="user-block-name">Hello, @User.Claims.Where(i => i.Type == "name").FirstOrDefault()?.Value</span>
-										<a href="http://potatochip.io/Identity/Manage/Index">Manage</a>&nbsp;|&nbsp;
-										<a href="@Url.Action("Logout", "Home")">Logout</a>
-									</div>
 								</div>
-							</div>
-						</li>
+							</li>
+
+						}
 						<!-- END user info-->
 						<!-- Iterates over all sidebar items-->
 						<li class="nav-heading ">

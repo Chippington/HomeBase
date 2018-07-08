@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="data - Copy.db" />
+    <None Remove="data.db" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Chip.Identity.Common" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
